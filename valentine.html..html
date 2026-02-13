@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Mercelline ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body{
+    margin:0;
+    padding:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    font-family:'Poppins',sans-serif;
+    overflow:hidden;
+}
+
+/* Loader */
+#loader{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:#ff7eb3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    font-size:22px;
+    z-index:1000;
+}
+
+/* Card */
+.card{
+    background:rgba(255,255,255,0.95);
+    padding:30px;
+    width:90%;
+    max-width:420px;
+    text-align:center;
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.4);
+    backdrop-filter:blur(8px);
+    display:none;
+    position:relative;
+}
+
+h1{
+    font-family:'Great Vibes',cursive;
+    font-size:38px;
+    color:#1e3c72;
+}
+
+/* Buttons */
+button{
+    margin-top:15px;
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    background:linear-gradient(45deg,#1e3c72,#ff4da6);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-weight:600;
+}
+
+button:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 15px rgba(255,77,166,0.6);
+}
+
+#noBtn{
+    position:absolute;
+}
+
+/* Floating Hearts */
+.heart{
+    position:absolute;
+    color:rgba(255,105,180,0.5);
+    font-size:20px;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+
+/* Countdown */
+#countdown{
+    font-size:14px;
+    margin-bottom:10px;
+    color:#ff4da6;
+}
+
+p{
+    color:#333;
+}
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">💙 Connecting Hearts... 💗</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" autoplay loop></audio>
+
+<!-- Main Card -->
+<div class="card" id="mainCard">
+    <h1>Mercelline 💙</h1>
+    <div id="countdown"></div>
+    <p>I may be miles away 🌍 but my heart never left you...</p>
+    <button id="readBtn">Read My Heart 💌</button>
+    <p id="poem"></p>
+    <div id="choices" style="display:none;">
+        <button id="yesBtn">YES 💕</button>
+        <button id="noBtn">No 😢</button>
+    </div>
+</div>
+
+<script>
+// === Loader ===
+setTimeout(() => {
+    document.getElementById("loader").style.display="none";
+    document.getElementById("mainCard").style.display="block";
+}, 2000);
+
+// === Countdown ===
+const countdown = document.getElementById("countdown");
+const targetDate = new Date(2026,1,14,0,0,0).getTime(); // Feb 14, 2026
+setInterval(() => {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+    const days = Math.floor(distance/(1000*60*60*24));
+    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
+    countdown.innerHTML = `Countdown to Valentine’s 💕: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+},1000);
+
+// === Typewriter Effect ===
+const text = `Happy Valentine’s Day, my love ❤️
+I just want you to know how deeply grateful I am to have you in my life.
+You bring peace to my chaos, light to my dark days, and a smile that makes everything feel right.
+Loving you feels natural—like something my heart has always known how to do.
+
+Thank you for being you: your kindness, your laughter, your strength, and the way you make even ordinary moments feel special.
+I don’t need this day to remind me how much you mean to me, but I’m glad it exists so I can say it out loud—today and always, you have my heart.
+
+I love you endlessly 💕`;
+
+let i=0;
+let typing;
+document.getElementById("readBtn").addEventListener("click", () => {
+    clearInterval(typing);
+    i=0;
+    const poem = document.getElementById("poem");
+    poem.innerHTML="";
+    document.getElementById("choices").style.display="none";
+    typing = setInterval(() => {
+        poem.innerHTML += text.charAt(i);
+        i++;
+        if(i >= text.length){
+            clearInterval(typing);
+            document.getElementById("choices").style.display="block";
+        }
+    },40);
+});
+
+// === No Button Moves Inside Card ===
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+    const card = document.getElementById("mainCard");
+    const maxTop = card.offsetHeight - noBtn.offsetHeight;
+    const maxLeft = card.offsetWidth - noBtn.offsetWidth;
+    noBtn.style.top = Math.random()*maxTop + "px";
+    noBtn.style.left = Math.random()*maxLeft + "px";
+});
+
+// === WhatsApp Send ===
+document.getElementById("yesBtn").addEventListener("click", () => {
+    const phone = "254790021881";
+    const message = encodeURIComponent("Yes ❤️ I'm your Valentine despite the distance 🌍 I choose you always 💕");
+    window.open("https://wa.me/" + phone + "?text=" + message, "_blank");
+});
+
+// === Floating Hearts ===
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💗";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+15)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},700);
+</script>
+
+</body>
+</html>
